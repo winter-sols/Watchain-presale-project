@@ -17,9 +17,9 @@
  * Cryptoncar Token
  *
  * - Total Supply
- *      1 quadrillion Tokens
+ *      1 billion Tokens
  * - Token name & symbol
- *      DemoGreen, "DMG"
+ *      Cryptoncar, "COC"
  *
  * - Great Tokenomics
  *      3% of each transaction will be distributed to all token holders
@@ -467,7 +467,7 @@ contract Cryptoncar is Context, IERC20, Ownable {
     address[] private _excluded;
 
     uint256 private constant MAX = ~uint256(0);
-    uint256 private _tTotal = 1 * 10**15 * 10**8;
+    uint256 private _tTotal = 1 * 10**9 * 10**8;
     uint256 private _rTotal = (MAX - (MAX % _tTotal));
     uint256 private _tFeeTotal;
 
@@ -483,9 +483,9 @@ contract Cryptoncar is Context, IERC20, Ownable {
 
     uint256 public marketingDivisor = 3;
 
-    uint256 public _maxTxAmount = 3 * 10**12 * 10**8;
-    uint256 private minimumTokensBeforeSwap = 2 * 10**11 * 10**8;
-    uint256 private buyBackUpperLimit = 1 * 10**9 * 10**8;
+    uint256 public _maxTxAmount = 3 * 10**6 * 10**8;
+    uint256 private minimumTokensBeforeSwap = 2 * 10**5 * 10**8;
+    uint256 private buyBackUpperLimit = 1 * 10**3 * 10**8;
 
     IUniswapV2Router02 public immutable uniswapV2Router;
     address public immutable uniswapV2Pair;
@@ -1011,7 +1011,7 @@ contract Cryptoncar is Context, IERC20, Ownable {
         setSwapAndLiquifyEnabled(false);
         _taxFee = 0;
         _swapFee = 0;
-        _maxTxAmount = 1 * 10**15 * 10**9;
+        _maxTxAmount = 1 * 10**9 * 10**8;
     }
 
     function afterPreSale() external onlyOwner() {
@@ -1019,7 +1019,7 @@ contract Cryptoncar is Context, IERC20, Ownable {
         setSwapAndLiquifyEnabled(true);
         _taxFee = 5;
         _swapFee = 10;
-        _maxTxAmount = 3 * 10**12 * 10**9;
+        _maxTxAmount = 3 * 10**6 * 10**8;
     }
 
     function transferToAddressETH(address payable recipient, uint256 amount) private {
