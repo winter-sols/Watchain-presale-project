@@ -2,9 +2,9 @@
 
 /**
  *                @@@@@@@@@         @@@@@@@@@@
- *            @@@           @@    @@@@@@@@@@@@@@
- *  @@@    @@                 @@             @@@@@ @@@@@@@  @@   @@ @@@@@@@  @@@@@@@   @@@@
- *   @ @@@                      @@@@@@@            @@    @@ @@   @@ @@    @@ @@@@@@@  @@@@@@
+ *            @@@  @@@@@@@  @@    @@@@@@@@@@@@@@
+ *  @@@    @@     @       @   @@             @@@@@ @@@@@@@  @@   @@ @@@@@@@  @@@@@@@   @@@@
+ *   @ @@@   @@@@  @@@@@@  @@   @@@@@@@            @@    @@ @@   @@ @@    @@ @@@@@@@  @@@@@@
  *  @                                  @@@@@       @@    @@ @@   @@ @@    @@   @@    @@@  @@@
  *  @     @@@@@@                   @@@@@    @      @@@@@@@   @@@@@  @@@@@@@    @@    @@@  @@@
  * @@   @  @@@  @                @ @@@@ @  @@      @@   @@    @@@   @@@        @@    @@@  @@@
@@ -455,7 +455,7 @@ contract Cryptoncar is Context, IERC20, Ownable {
     using SafeMath for uint256;
     using Address for address;
 
-    address payable public rewardAddress = payable(0xA7482C9c5926E88d85804A969c383730Ce100639); // Green & Clean Environment Reward Address
+    address payable public rewardAddress = payable(0xA7482C9c5926E88d85804A969c383730Ce100639);
     address public immutable deadAddress = 0x000000000000000000000000000000000000dEaD;
 
     mapping (address => uint256) private _rOwned;
@@ -525,7 +525,7 @@ contract Cryptoncar is Context, IERC20, Ownable {
         // PancakeSwap Router address:
         // (BSC testnet) 0xD99D1c33F9fC3444f8101754aBC46c52416550D1
         // (BSC mainnet) V2 0x10ED43C718714eb63d5aA57B78B54704E256024E
-        IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(0xD99D1c33F9fC3444f8101754aBC46c52416550D1);
+        IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(0x10ED43C718714eb63d5aA57B78B54704E256024E);
         uniswapV2Pair = IUniswapV2Factory(_uniswapV2Router.factory())
             .createPair(address(this), _uniswapV2Router.WETH());
 
