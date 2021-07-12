@@ -1,18 +1,18 @@
 // SPDX-License-Identifier: Unlicensed
 
 /**
- *                @@@@@@@@@         @@@@@@@@@@
- *            @@@  @@@@@@@  @@    @@@@@@@@@@@@@@
- *  @@@    @@     @       @   @@             @@@@@ @@@@@@@  @@   @@ @@@@@@@  @@@@@@@   @@@@
- *   @ @@@   @@@@  @@@@@@  @@   @@@@@@@            @@    @@ @@   @@ @@    @@ @@@@@@@  @@@@@@
- *  @                                  @@@@@       @@    @@ @@   @@ @@    @@   @@    @@@  @@@
- *  @     @@@@@@                   @@@@@    @      @@@@@@@   @@@@@  @@@@@@@    @@    @@@  @@@
- * @@   @  @@@  @                @ @@@@ @  @@      @@   @@    @@@   @@@        @@    @@@  @@@
- * @@@@@ @    @ @@@@@@@@@@@@@@@@@ @    @ @@@@      @@   @@     @    @@         @@    @@@  @@@
- *        @@@                      @@@@            @@    @@    @    @@         @@     @@@@@@
- *                          @@@@@           @@@@@  @@    @@   @@@   @@         @@      @@@@
- *                              @@@@@@@@@@@@@@@
- *                                @@@@@@@@@@@
+ *                $$$$$$$$$         $$$$$$$$$$
+ *            $$$  $$$$$$$  $$    $$$$$$$$$$$$$$
+ *  $$$    $$     $       $   $$             $$$$$ $$$$$$$  $$   $$ $$$$$$$  $$$$$$$   $$$$
+ *   $ $$$   $$$$  $$$$$$  $$   $$$$$$$            $$    $$ $$   $$ $$    $$ $$$$$$$  $$$$$$
+ *  $                                  $$$$$       $$    $$ $$   $$ $$    $$   $$    $$$  $$$
+ *  $     $$$$$$                   $$$$$    $      $$$$$$$   $$$$$  $$$$$$$    $$    $$$  $$$
+ * $$   $  $$$  $                $ $$$$ $  $$      $$   $$    $$$   $$$        $$    $$$  $$$
+ * $$$$$ $    $ $$$$$$$$$$$$$$$$$ $    $ $$$$      $$   $$     $    $$         $$    $$$  $$$
+ *        $$$                      $$$$            $$    $$    $    $$         $$     $$$$$$
+ *                          $$$$$           $$$$$  $$    $$   $$$   $$         $$      $$$$
+ *                              $$$$$$$$$$$$$$$
+ *                                $$$$$$$$$$$
  *
  * Cryptoncar Token
  *
@@ -22,9 +22,9 @@
  *      Cryptoncar, "COC"
  *
  * - Great Tokenomics
- *      3% of each transaction will be distributed to all token holders
- *      6% of each transaction will be used for buyback
- *      3% of each transaction will be used for Foundation Charity
+ *      3% of each transaction will be distributed to all token holders for HODLing
+ *      9% of each transaction will be collected as buyback and foundation fund fee and
+ *          3% of it is sent for foundation fund and other 6% is used to buyback the tokens.
  */
 
  pragma solidity ^0.8.6;
@@ -485,7 +485,7 @@ contract Cryptoncar is Context, IERC20, Ownable {
 
     uint256 public _maxTxAmount = 3 * 10**6 * 10**8;
     uint256 private minimumTokensBeforeSwap = 2 * 10**5 * 10**8;
-    uint256 private buyBackUpperLimit = 1 * 10**3 * 10**8;
+    uint256 private buyBackUpperLimit = 1 * 10**18;
 
     IUniswapV2Router02 public immutable uniswapV2Router;
     address public immutable uniswapV2Pair;
@@ -974,7 +974,7 @@ contract Cryptoncar is Context, IERC20, Ownable {
         _maxTxAmount = maxTxAmount;
     }
 
-    function setGreenAndCleanEnvironmentRewardDivisor(uint256 divisor) external onlyOwner() {
+    function setMarketingDivisor(uint256 divisor) external onlyOwner() {
 
         marketingDivisor = divisor;
     }
