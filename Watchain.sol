@@ -1,25 +1,31 @@
-// SPDX-License-Identifier: Unlicensed
+// SPDX-License-Identifier: MIT
 
 /**
- *                $$$$$$$$$         $$$$$$$$$$
- *            $$$  $$$$$$$  $$    $$$$$$$$$$$$$$
- *  $$$    $$     $       $   $$             $$$$$ $$$$$$$  $$   $$ $$$$$$$  $$$$$$$   $$$$
- *   $ $$$   $$$$  $$$$$$  $$   $$$$$$$            $$    $$ $$   $$ $$    $$ $$$$$$$  $$$$$$
- *  $                                  $$$$$       $$    $$ $$   $$ $$    $$   $$    $$$  $$$
- *  $     $$$$$$                   $$$$$    $      $$$$$$$   $$$$$  $$$$$$$    $$    $$$  $$$
- * $$   $  $$$  $                $ $$$$ $  $$      $$   $$    $$$   $$$        $$    $$$  $$$
- * $$$$$ $    $ $$$$$$$$$$$$$$$$$ $    $ $$$$      $$   $$     $    $$         $$    $$$  $$$
- *        $$$                      $$$$            $$    $$    $    $$         $$     $$$$$$
- *                          $$$$$           $$$$$  $$    $$   $$$   $$         $$      $$$$
- *                              $$$$$$$$$$$$$$$
- *                                $$$$$$$$$$$
+ *       WWWWWWWWWW
+ *       CC CCCC CC
+ *      HHHHH  HHHHH
+ *    ################
+ *  ####################     WWW         WWW   WWWWWWWWWWW   WWW         WWW
+ * ###       XII      ###    WWW         WWW  WWW       WWW  WWW         WWW
+ * ###      \         ###    WWW         WWW WWW         WWW WWW         WWW
+ * ###       \        ###\&& WWW         WWW WWW             WWWWWWWWWWWWWWW
+ * ### IX     o-- III ###|&& WWW   WWW   WWW WWW             WWWWWWWWWWWWWWW
+ * ###                ###    WWW  WW WW  WWW WWW         WWW WWW         WWW
+ * ###    WATCHAIN    ###    WWW WW   WW WWW  WWW       WWW  WWW         WWW
+ * ###       VI       ###    WWWW       WWWW   WWWWWWWWWWW   WWW         WWW
+ *  ####################
+ *    ################
+ *      WWWWW  WWWWW
+ *       CC CCCC CC
+ *       HHHHHHHHHH
  *
- * Cryptoncar Token
+ * Watchain Token
  *
  * - Total Supply
  *      1 billion Tokens
+ *
  * - Token name & symbol
- *      Cryptoncar, "COC"
+ *      Watchain, "WCH"
  *
  * - Great Tokenomics
  *      3% of each transaction will be distributed to all token holders for HODLing
@@ -29,6 +35,7 @@
 
  pragma solidity ^0.8.6;
 
+// import "@openzeppelin/contracts/utils/Context.sol"
  abstract contract Context {
     function _msgSender() internal view virtual returns (address payable) {
 
@@ -42,6 +49,7 @@
     }
 }
 
+// import "@openzeppelin/contracts/token/ERC20/IERC20.sol"
 interface IERC20 {
 
     function totalSupply() external view returns (uint256);
@@ -54,6 +62,7 @@ interface IERC20 {
     event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
+// import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 library SafeMath {
 
     function add(uint256 a, uint256 b) internal pure returns (uint256) {
@@ -116,6 +125,7 @@ library SafeMath {
     }
 }
 
+// import "@openzeppelin/contracts/utils/Address.sol";
 library Address {
 
     function isContract(address account) internal view returns (bool) {
@@ -182,6 +192,7 @@ library Address {
     }
 }
 
+// import "@openzeppelin/contracts/access/Ownable.sol"
 contract Ownable is Context {
     address private _owner;
     address private _previousOwner;
@@ -451,7 +462,7 @@ interface IUniswapV2Router02 is IUniswapV2Router01 {
     ) external;
 }
 
-contract Cryptoncar is Context, IERC20, Ownable {
+contract Watchain is Context, IERC20, Ownable {
     using SafeMath for uint256;
     using Address for address;
 
@@ -471,8 +482,8 @@ contract Cryptoncar is Context, IERC20, Ownable {
     uint256 private _rTotal = (MAX - (MAX % _tTotal));
     uint256 private _tFeeTotal;
 
-    string private _name = "Cryptoncar";
-    string private _symbol = "COC";
+    string private _name = "Watchain";
+    string private _symbol = "WCH";
     uint8 private _decimals = 8;
 
     uint256 public _taxFee = 3;
