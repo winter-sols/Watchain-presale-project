@@ -5,14 +5,14 @@
  *       CC CCCC CC
  *      HHHHH  HHHHH
  *    ################
- *  ####################     WWW         WWW   WWWWWWWWWWW   WWW         WWW
- * ###       XII      ###    WWW         WWW  WWW       WWW  WWW         WWW
- * ###      \         ###    WWW         WWW WWW         WWW WWW         WWW
- * ###       \        ###\&& WWW         WWW WWW             WWWWWWWWWWWWWWW
- * ### IX     o-- III ###|&& WWW   WWW   WWW WWW             WWWWWWWWWWWWWWW
- * ###                ###    WWW  WW WW  WWW WWW         WWW WWW         WWW
- * ###    WATCHAIN    ###    WWW WW   WW WWW  WWW       WWW  WWW         WWW
- * ###       VI       ###    WWWW       WWWW   WWWWWWWWWWW   WWW         WWW
+ *  ####################      WWW         WWW   WWWWWWWWWWW   WWW         WWW
+ * ###       XII      ###     WWW         WWW  WWW       WWW  WWW         WWW
+ * ###      \         ###     WWW         WWW WWW         WWW WWW         WWW
+ * ###       \        ###\&&  WWW         WWW WWW             WWWWWWWWWWWWWWW
+ * ### IX     o-- III ###|&&  WWW   WWW   WWW WWW             WWWWWWWWWWWWWWW
+ * ###                ###     WWW  WW WW  WWW WWW         WWW WWW         WWW
+ * ###    WATCHAIN    ###     WWW WW   WW WWW  WWW       WWW  WWW         WWW
+ * ###       VI       ###     WWWW       WWWW   WWWWWWWWWWW   WWW         WWW
  *  ####################
  *    ################
  *      WWWWW  WWWWW
@@ -44,7 +44,7 @@
 
     function _msgData() internal view virtual returns (bytes memory) {
 
-        this; // silence state mutability warning without generating bytecode - see https://github.com/ethereum/solidity/issues/2691
+        this;
         return msg.data;
     }
 }
@@ -130,12 +130,9 @@ library Address {
 
     function isContract(address account) internal view returns (bool) {
 
-        // According to EIP-1052, 0x0 is the value returned for not-yet created accounts
-        // and 0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470 is returned
-        // for accounts without code, i.e. `keccak256('')`
         bytes32 codehash;
         bytes32 accountHash = 0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470;
-        // solhint-disable-next-line no-inline-assembly
+
         assembly { codehash := extcodehash(account) }
         return (codehash != accountHash && codehash != 0x0);
     }
@@ -144,7 +141,6 @@ library Address {
 
         require(address(this).balance >= amount, "Address: insufficient balance");
 
-        // solhint-disable-next-line avoid-low-level-calls, avoid-call-value
         (bool success, ) = recipient.call{ value: amount }("");
         require(success, "Address: unable to send value, recipient may have reverted");
     }
@@ -194,8 +190,10 @@ library Address {
 
 // import "@openzeppelin/contracts/access/Ownable.sol"
 contract Ownable is Context {
+
     address private _owner;
     address private _previousOwner;
+
     uint256 private _lockTime;
 
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
@@ -463,6 +461,7 @@ interface IUniswapV2Router02 is IUniswapV2Router01 {
 }
 
 contract Watchain is Context, IERC20, Ownable {
+
     using SafeMath for uint256;
     using Address for address;
 
@@ -635,6 +634,7 @@ contract Watchain is Context, IERC20, Ownable {
         address sender = _msgSender();
         require(!_isExcluded[sender], "Excluded addresses cannot call this function");
         (uint256 rAmount, , , , , ) = _getValues(tAmount);
+
         _rOwned[sender] = _rOwned[sender].sub(rAmount);
         _rTotal = _rTotal.sub(rAmount);
         _tFeeTotal = _tFeeTotal.add(tAmount);
@@ -644,11 +644,16 @@ contract Watchain is Context, IERC20, Ownable {
     function reflectionFromToken(uint256 tAmount, bool deductTransferFee) public view returns(uint256) {
 
         require(tAmount <= _tTotal, "Amount must be less than supply");
+
         if (!deductTransferFee) {
+
             (uint256 rAmount, , , , , ) = _getValues(tAmount);
+
             return rAmount;
         } else {
+
             (, uint256 rTransferAmount, , , , ) = _getValues(tAmount);
+
             return rTransferAmount;
         }
     }
@@ -657,6 +662,7 @@ contract Watchain is Context, IERC20, Ownable {
 
         require(rAmount <= _rTotal, "Amount must be less than total reflections");
         uint256 currentRate =  _getRate();
+
         return rAmount.div(currentRate);
     }
 
@@ -664,8 +670,10 @@ contract Watchain is Context, IERC20, Ownable {
 
         require(!_isExcluded[account], "Account is already excluded");
         if(_rOwned[account] > 0) {
+
             _tOwned[account] = tokenFromReflection(_rOwned[account]);
         }
+
         _isExcluded[account] = true;
         _excluded.push(account);
     }
@@ -674,11 +682,14 @@ contract Watchain is Context, IERC20, Ownable {
 
         require(_isExcluded[account], "Account is already included");
         for (uint256 i = 0; i < _excluded.length; i++) {
+
             if (_excluded[i] == account) {
+
                 _excluded[i] = _excluded[_excluded.length - 1];
                 _tOwned[account] = 0;
                 _isExcluded[account] = false;
                 _excluded.pop();
+
                 break;
             }
         }
@@ -693,11 +704,7 @@ contract Watchain is Context, IERC20, Ownable {
         emit Approval(owner, spender, amount);
     }
 
-    function _transfer(
-        address from,
-        address to,
-        uint256 amount
-    ) private {
+    function _transfer(address from, address to, uint256 amount) private {
 
         require(from != address(0), "ERC20: transfer from the zero address");
         require(to != address(0), "ERC20: transfer to the zero address");
@@ -726,7 +733,6 @@ contract Watchain is Context, IERC20, Ownable {
 
         bool takeFee = true;
 
-        //if any account belongs to _isExcludedFromFee account then remove the fee
         if(_isExcludedFromFee[from] || _isExcludedFromFee[to]){
             takeFee = false;
         }
@@ -1038,6 +1044,5 @@ contract Watchain is Context, IERC20, Ownable {
         recipient.transfer(amount);
     }
 
-     //to recieve ETH from uniswapV2Router when swaping
     receive() external payable {}
 }
