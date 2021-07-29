@@ -1,3 +1,3 @@
-# Cryptocar BEP20 Token
+# Watchain BEP20 Token
 
-Cryptocar BEP20 token project.
+Watchain BEP20 token project.
