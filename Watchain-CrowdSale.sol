@@ -1,27 +1,27 @@
 // SPDX-License-Identifier: MIT
 
-/**
- *                                                                                @
- *                                                                               @@@
- *                          @@@@@@@                     @@@@@@@@                @ @ @
- *                   @@@@@@@@@@@@@@@@@@@@         @@@@@@@@@@@@@@@@@@@@           @@@
- *                @@@@@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@@@@@@@@         @
+ /**
+ *                                                                                                             @
+ *                                                                                                            @@@
+ *                      @@@@@@@@@@                       @@@@@@@                     @@@@@@@@                @ @ @
+ *                @@@@@@@@@@@@@@@@@@@@@           @@@@@@@@@@@@@@@@@@@@         @@@@@@@@@@@@@@@@@@@@           @@@
+ *             @@@@@@@@@@@@@@@@@@@@@@@@@@@@    @@@@@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@@@@@@@@         @
  *
- *    @@@@@@@@     @@@@@@@@@    @@@@@@@@@@    @@@@@@@       @@@      @@@@@  @@     @@@@@@@@@@
- *    @@@@@@@@@@   @@@@@@@@@@   @@@@@@@@@@   @@@@@@@@@      @@@       @@@   @@@    @@@@@@@@@@
- *    @@@     @@@  @@@     @@@  @@@     @@  @@@     @@@    @@@@@      @@@   @@@@   @@@     @@
- *    @@@     @@@  @@@     @@@  @@@         @@@            @@@@@      @@@   @@@@   @@@
- *    @@@@@@@@@@   @@@@@@@@@@   @@@    @@    @@@@@@@      @@@ @@@     @@@   @@@@   @@@    @@
- *    @@@@@@@@     @@@@@@@@     @@@@@@@@@     @@@@@@@     @@@ @@@     @@@   @@@@   @@@@@@@@@
- *    @@@          @@@   @@@    @@@    @@          @@@   @@@   @@@    @@@   @@@@   @@@    @@
- *    @@@  @@@@    @@@   @@@    @@@                 @@@  @@@   @@@    @@@   @@@@   @@@
- *    @@@   @@@    @@@    @@@   @@@     @@  @@@     @@@  @@@@@@@@@    @@@   @@     @@@     @@
- *    @@@    @@    @@@    @@@   @@@@@@@@@@   @@@@@@@@    @@@   @@@    @@@      @@  @@@@@@@@@@
- *   @@@@@     @  @@@@@   @@@@  @@@@@@@@@@    @@@@@@    @@@@@ @@@@@  @@@@@@@@@@@@  @@@@@@@@@@
+ *      @@@@@@@    @@@@@@@@@      @@@@@@@   @@@@     @@@@ @@@@@@@@@@     @@@@@@@       @@@      @@@@@  @@     @@@@@@@@@@
+ *     @@@@@@@@@   @@@@@@@@@@    @@@@@@@@@   @@@     @@@   @@@@@@@@@@   @@@@@@@@@      @@@       @@@   @@@    @@@@@@@@@@
+ *    @@@     @@@  @@@     @@@  @@@     @@@  @@@ @@@ @@@   @@@     @@@ @@@     @@@    @@@@@      @@@   @@@@   @@@     @@
+ *    @@@     @@@  @@@     @@@  @@@     @@@  @@@  @  @@@   @@@     @@@ @@@            @@@@@      @@@   @@@@   @@@
+ *    @@@          @@@@@@@@@@   @@@     @@@  @@@  @  @@@   @@@     @@@  @@@@@@@      @@@ @@@     @@@   @@@@   @@@    @@
+ *    @@@          @@@@@@@@     @@@     @@@  @@@  @  @@@   @@@     @@@   @@@@@@@     @@@ @@@     @@@   @@@@   @@@@@@@@@
+ *    @@@          @@@   @@@    @@@     @@@  @@@  @  @@@   @@@     @@@        @@@   @@@   @@@    @@@   @@@@   @@@    @@
+ *    @@@     @@@  @@@   @@@    @@@     @@@  @@@  @  @@@   @@@     @@@         @@@  @@@   @@@    @@@   @@@@   @@@
+ *    @@@     @@@  @@@    @@@   @@@     @@@  @@@  @  @@@   @@@     @@@ @@@     @@@  @@@@@@@@@    @@@   @@     @@@     @@
+ *     @@@@@@@@@   @@@    @@@    @@@@@@@@@    @@@ @ @@@    @@@@@@@@@@   @@@@@@@@    @@@   @@@    @@@      @@  @@@@@@@@@@
+ *      @@@@@@    @@@@@   @@@@    @@@@@@@      @@@ @@@    @@@@@@@@@@     @@@@@@    @@@@@ @@@@@  @@@@@@@@@@@@  @@@@@@@@@@
  *
- *                @@@@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@@@@@@@@@@
- *                   @@@@@@@@@@@@@@@@@@@@        @@@@@@@@@@@@@@@@@@@@@
- *                        @@@@@@@@@@                 @@@@@@@@@@@@
+ *            @@@@@@@@@@@@@@@@@@@@@@@@@@@@@    @@@@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ *                @@@@@@@@@@@@@@@@@@@@@@@         @@@@@@@@@@@@@@@@@@@@        @@@@@@@@@@@@@@@@@@@@@
+ *                      @@@@@@@@@@@                     @@@@@@@@@@                 @@@@@@@@@@@@
  *
  */
 
@@ -288,22 +288,16 @@ contract Watchain_PreSale is ReentrancyGuard, Context, Ownable {
     uint public maxPurchase;
     uint public availableTokensICO;
 
-    uint256 public softCap;
-    uint256 public hardCap;
-
     mapping (address => bool) Claimed;
-    mapping (address => uint256) CoinPaid;
-    mapping (address => uint256) TokenBought;
-
-    bool public presaleResult;
+    mapping (address => uint256) valDrop;
 
     event TokensPurchased(address indexed purchaser, address indexed beneficiary, uint256 value, uint256 amount);
 
     constructor (uint256 rate, address wallet, IERC20 token) {
 
-        require(rate > 0, "Pre-Sale: rate is 0");
-        require(wallet != address(0), "Pre-Sale: wallet is the zero address");
-        require(address(token) != address(0), "Pre-Sale: token is the zero address");
+        require(rate > 0, "Crowd-Sale: rate is 0");
+        require(wallet != address(0), "Crowd-Sale: wallet is the zero address");
+        require(address(token) != address(0), "Crowd-Sale: token is the zero address");
 
         _rate = rate;
         _wallet = wallet;
@@ -318,38 +312,27 @@ contract Watchain_PreSale is ReentrancyGuard, Context, Ownable {
             buyTokens(_msgSender());
         } else {
 
-            revert('Pre-Sale is closed');
+            revert('Crowd-Sale is closed');
         }
     }
 
-    //Start Pre-Sale
-    function startICO(uint endDate, uint _minPurchase, uint _maxPurchase, uint _availableTokens, uint256 _softCap, uint256 _hardCap) external onlyOwner icoNotActive() {
+    //Start Crowd-Sale
+    function startICO(uint endDate, uint _minPurchase, uint _maxPurchase, uint _availableTokens) external onlyOwner icoNotActive() {
 
-        require(endDate > block.timestamp, 'Pre-Sale: duration should be > 0');
-        require(_availableTokens > 0 && _availableTokens <= _token.totalSupply(), 'Pre-Sale: availableTokens should be > 0 and <= totalSupply');
-        require(_minPurchase > 0, 'Pre-Sale: _minPurchase should > 0');
+        require(endDate > block.timestamp, 'Crowd-Sale: duration should be > 0');
+        require(_availableTokens > 0 && _availableTokens <= _token.totalSupply(), 'Crowd-Sale: availableTokens should be > 0 and <= totalSupply');
+        require(_minPurchase > 0, 'Crowd-Sale: _minPurchase should > 0');
 
         endICO = endDate;
         availableTokensICO = _availableTokens;
 
         minPurchase = _minPurchase;
         maxPurchase = _maxPurchase;
-
-        softCap = _softCap;
-        hardCap = _hardCap;
     }
 
-    function stopICO() external onlyOwner icoActive() {
+    function stopICO() external onlyOwner icoActive(){
 
         endICO = 0;
-
-        if(_weiRaised > softCap) {
-
-          presaleResult = true;
-        } else {
-
-          presaleResult = false;
-        }
     }
 
 
@@ -362,40 +345,21 @@ contract Watchain_PreSale is ReentrancyGuard, Context, Ownable {
 
         _weiRaised = _weiRaised.add(weiAmount);
         availableTokensICO = availableTokensICO - tokens;
-
-        Claimed[beneficiary] = false;
-        CoinPaid[beneficiary] = weiAmount;
-        TokenBought[beneficiary] = tokens;
+        _processPurchase(beneficiary, tokens);
 
         emit TokensPurchased(_msgSender(), beneficiary, weiAmount, tokens);
+
+        _forwardFunds();
     }
 
     function _preValidatePurchase(address beneficiary, uint256 weiAmount) internal view {
 
-        require(beneficiary != address(0), "Pre-Sale: beneficiary is the zero address");
-        require(weiAmount != 0, "Pre-Sale: weiAmount is 0");
-        require(weiAmount >= minPurchase, 'have to send at least: minPurchase');
-        require(weiAmount <= maxPurchase, 'have to send max: maxPurchase');
+        require(beneficiary != address(0), "Crowd-Sale: beneficiary is the zero address");
+        require(weiAmount != 0, "Crowd-Sale: weiAmount is 0");
+        require(weiAmount >= minPurchase, 'Crowd-Sale: have to send at least: minPurchase');
+        require(weiAmount <= maxPurchase, 'Crowd-Sale: have to send max: maxPurchase');
 
         this;
-    }
-
-    function claimToken(address beneficiary) public icoNotActive() {
-
-      require(Claimed[beneficiary] == false, "Pre-Sale: You did claim your tokens!");
-      Claimed[beneficiary] = true;
-
-      _processPurchase(beneficiary, TokenBought[beneficiary]);
-    }
-
-    function claimRefund(address beneficiary) public icoNotActive() {
-
-      if(presaleResult == false) {
-          require(Claimed[beneficiary] == false, "Pre-Sale: Only ICO member can refund coins!");
-          Claimed[beneficiary] = true;
-
-          payable(beneficiary).transfer(CoinPaid[beneficiary]);
-      }
     }
 
     function _deliverTokens(address beneficiary, uint256 tokenAmount) internal {
@@ -415,9 +379,14 @@ contract Watchain_PreSale is ReentrancyGuard, Context, Ownable {
         return weiAmount.mul(_rate).div(1000000);
     }
 
+    function _forwardFunds() internal {
+
+        payable(_wallet).transfer(msg.value);
+    }
+
     function withdraw() external onlyOwner {
 
-        require(address(this).balance > 0, 'Pre-Sale: Contract has no money');
+        require(address(this).balance > 0, 'Crowd-Sale: Contract has no money');
         payable(_wallet).transfer(address(this).balance);
     }
 
@@ -455,13 +424,13 @@ contract Watchain_PreSale is ReentrancyGuard, Context, Ownable {
 
     modifier icoActive() {
 
-        require(endICO > 0 && block.timestamp < endICO && availableTokensICO > 0, "Pre-Sale: ICO must be active");
+        require(endICO > 0 && block.timestamp < endICO && availableTokensICO > 0, "Crowd-Sale: ICO must be active");
         _;
     }
 
     modifier icoNotActive() {
 
-        require(endICO < block.timestamp, 'Pre-Sale: ICO should not be active');
+        require(endICO < block.timestamp, 'Crowd-Sale: ICO should not be active');
         _;
     }
 
